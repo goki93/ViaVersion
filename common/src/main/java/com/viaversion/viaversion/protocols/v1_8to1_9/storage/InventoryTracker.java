@@ -26,7 +26,7 @@ import java.util.Map;
 public class InventoryTracker implements StorableObject {
     private String inventory;
 
-    private final Map<Short, Map<Short, Integer>> windowItemCache = new HashMap<>();
+    private final Map<Byte, Map<Short, Integer>> windowItemCache = new HashMap<>();
     private int itemIdInCursor;
     private boolean dragging;
 
@@ -38,7 +38,7 @@ public class InventoryTracker implements StorableObject {
         this.inventory = inventory;
     }
 
-    public void resetInventory(short windowId) {
+    public void resetInventory(byte windowId) {
         // Reset the cursor state of the inventory
         if (inventory == null) {
             this.itemIdInCursor = 0;
@@ -51,7 +51,7 @@ public class InventoryTracker implements StorableObject {
         }
     }
 
-    public int getItemId(short windowId, short slot) {
+    public int getItemId(byte windowId, short slot) {
         Map<Short, Integer> itemMap = this.windowItemCache.get(windowId);
         if (itemMap == null) {
             return 0;
@@ -60,7 +60,7 @@ public class InventoryTracker implements StorableObject {
         return itemMap.getOrDefault(slot, 0);
     }
 
-    public void setItemId(short windowId, short slot, int itemId) {
+    public void setItemId(byte windowId, short slot, int itemId) {
         if (windowId == -1 && slot == -1) {
             // Set the cursor item
             this.itemIdInCursor = itemId;
@@ -78,7 +78,7 @@ public class InventoryTracker implements StorableObject {
      * @param hoverSlot The slot number of the current mouse position
      * @param button    The button to use in the click
      */
-    public void handleWindowClick(UserConnection user, short windowId, byte mode, short hoverSlot, byte button) {
+    public void handleWindowClick(UserConnection user, byte windowId, byte mode, short hoverSlot, byte button) {
         EntityTracker1_9 entityTracker = user.getEntityTracker(Protocol1_8To1_9.class);
 
         // Skip inventory background clicks

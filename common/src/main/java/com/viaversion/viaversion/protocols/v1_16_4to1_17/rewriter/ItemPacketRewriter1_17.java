@@ -58,7 +58,7 @@ public final class ItemPacketRewriter1_17 extends ItemRewriter<ClientboundPacket
         protocol.registerServerbound(ServerboundPackets1_17.CONTAINER_CLICK, new PacketHandlers() {
             @Override
             public void register() {
-                map(Types.UNSIGNED_BYTE); // Window Id
+                map(Types.BYTE); // Window Id
                 map(Types.SHORT); // Slot
                 map(Types.BYTE); // Button
                 handler(wrapper -> wrapper.write(Types.SHORT, (short) 0)); // Action id - doesn't matter, as the sent out confirmation packet will be cancelled

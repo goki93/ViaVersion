@@ -154,7 +154,7 @@ public class ItemRewriter<C extends ClientboundPacketType, S extends Serverbound
         protocol.registerClientbound(packetType, new PacketHandlers() {
             @Override
             public void register() {
-                map(Types.UNSIGNED_BYTE); // Window id
+                map(Types.BYTE); // Window id
                 map(Types.SHORT); // Slot id
                 handler(wrapper -> handleClientboundItem(wrapper));
             }
@@ -165,7 +165,7 @@ public class ItemRewriter<C extends ClientboundPacketType, S extends Serverbound
         protocol.registerClientbound(packetType, new PacketHandlers() {
             @Override
             public void register() {
-                map(Types.UNSIGNED_BYTE); // Window id
+                map(Types.BYTE); // Window id
                 map(Types.VAR_INT); // State id
                 map(Types.SHORT); // Slot id
                 handler(wrapper -> handleClientboundItem(wrapper));
@@ -218,7 +218,7 @@ public class ItemRewriter<C extends ClientboundPacketType, S extends Serverbound
         protocol.registerServerbound(packetType, new PacketHandlers() {
             @Override
             public void register() {
-                map(Types.UNSIGNED_BYTE); // 0 - Window ID
+                map(Types.BYTE); // 0 - Container Id
                 map(Types.SHORT); // 1 - Slot
                 map(Types.BYTE); // 2 - Button
                 map(Types.SHORT); // 3 - Action number
@@ -232,7 +232,7 @@ public class ItemRewriter<C extends ClientboundPacketType, S extends Serverbound
         protocol.registerServerbound(packetType, new PacketHandlers() {
             @Override
             public void register() {
-                map(Types.UNSIGNED_BYTE); // Window Id
+                map(Types.BYTE); // Container Id
                 map(Types.VAR_INT); // State id
                 map(Types.SHORT); // Slot
                 map(Types.BYTE); // Button
