@@ -116,7 +116,7 @@ public final class ItemPacketRewriter1_17 extends ItemRewriter<ClientboundPacket
                 short inventoryId = (short) ((id >> 16) & 0xFF);
                 short confirmationId = (short) (id & 0xFFFF);
                 PacketWrapper packet = wrapper.create(ServerboundPackets1_16_2.CONTAINER_ACK);
-                packet.write(Types.UNSIGNED_BYTE, inventoryId);
+                packet.write(Types.BYTE, (byte) inventoryId);
                 packet.write(Types.SHORT, confirmationId);
                 packet.write(Types.BOOLEAN, true); // Accept
                 packet.sendToServer(Protocol1_16_4To1_17.class);
