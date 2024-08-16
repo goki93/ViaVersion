@@ -202,12 +202,12 @@ public class ItemPacketRewriter1_9 extends ItemRewriter<ClientboundPackets1_8, S
 
             @Override
             public void register() {
-                map(Types.BYTE); // 0 - Window ID
+                map(Types.UNSIGNED_BYTE); // 0 - Window ID
                 // Inventory tracking
                 handler(wrapper -> {
                     InventoryTracker inventoryTracker = wrapper.user().get(InventoryTracker.class);
                     inventoryTracker.setInventory(null);
-                    short windowId = wrapper.get(Types.BYTE, 0);
+                    short windowId = wrapper.get(Types.UNSIGNED_BYTE, 0);
                     inventoryTracker.resetInventory((byte) windowId);
                 });
             }
