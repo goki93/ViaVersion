@@ -309,10 +309,10 @@ public abstract class AbstractProtocol<CU extends ClientboundPacketType, CM exte
     // ---------------------------------------------------------------------------------
 
     @Override
-    public void registerClientbound(CU packetType, @Nullable PacketHandler handler) {
+    public void registerClientbound(CU packetType, @Nullable PacketHandler handler, boolean override) {
         PacketTypeMap<CM> mappedPacketTypes = packetTypesProvider.mappedClientboundPacketTypes().get(packetType.state());
         CM mappedPacketType = mappedPacketType(packetType, mappedPacketTypes, unmappedClientboundPacketType, mappedClientboundPacketType);
-        registerClientbound(packetType, mappedPacketType, handler);
+        registerClientbound(packetType, mappedPacketType, handler, override);
     }
 
     @Override
@@ -326,10 +326,10 @@ public abstract class AbstractProtocol<CU extends ClientboundPacketType, CM exte
     }
 
     @Override
-    public void registerServerbound(SU packetType, @Nullable PacketHandler handler) {
+    public void registerServerbound(SU packetType, @Nullable PacketHandler handler, boolean override) {
         PacketTypeMap<SM> mappedPacketTypes = packetTypesProvider.mappedServerboundPacketTypes().get(packetType.state());
         SM mappedPacketType = mappedPacketType(packetType, mappedPacketTypes, unmappedServerboundPacketType, mappedServerboundPacketType);
-        registerServerbound(packetType, mappedPacketType, handler);
+        registerServerbound(packetType, mappedPacketType, handler, override);
     }
 
     @Override

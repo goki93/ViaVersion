@@ -69,6 +69,14 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
         registerServerbound(state, unmappedPacketId, mappedPacketId, handler, false);
     }
 
+    default void registerServerbound(State state, int packetId, @Nullable PacketHandler handler) {
+        registerServerbound(state, packetId, packetId, handler, false);
+    }
+
+    default void registerServerbound(State state, int packetId, @Nullable PacketHandler handler, boolean override) {
+        registerServerbound(state, packetId, packetId, handler, override);
+    }
+
     /**
      * Registers a serverbound packet, with id transformation and remapper.
      *
@@ -85,6 +93,14 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
 
     default void registerClientbound(State state, int unmappedPacketId, int mappedPacketId, @Nullable PacketHandler handler) {
         registerClientbound(state, unmappedPacketId, mappedPacketId, handler, false);
+    }
+
+    default void registerClientbound(State state, int packetId, @Nullable PacketHandler handler) {
+        registerClientbound(state, packetId, packetId, handler, false);
+    }
+
+    default void registerClientbound(State state, int packetId, @Nullable PacketHandler handler, boolean override) {
+        registerClientbound(state, packetId, packetId, handler, override);
     }
 
     void cancelClientbound(State state, int unmappedPacketId);
@@ -109,7 +125,18 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
      * @param packetType clientbound packet type the server sends
      * @param handler    packet handler
      */
-    void registerClientbound(CU packetType, @Nullable PacketHandler handler);
+    default void registerClientbound(CU packetType, @Nullable PacketHandler handler) {
+        registerClientbound(packetType, handler, false);
+    }
+
+    /**
+     * Registers a clientbound protocol and automatically maps it to the new id.
+     *
+     * @param packetType clientbound packet type the server sends
+     * @param handler    packet handler
+     * @param override   whether an existing mapping should be overridden if present
+     */
+    void registerClientbound(CU packetType, @Nullable PacketHandler handler, boolean override);
 
     /**
      * Maps a packet type to another packet type without a packet handler.
@@ -119,7 +146,19 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
      * @param mappedPacketType clientbound packet type after transforming for the client
      */
     default void registerClientbound(CU packetType, @Nullable CM mappedPacketType) {
-        registerClientbound(packetType, mappedPacketType, null);
+        registerClientbound(packetType, mappedPacketType, false);
+    }
+
+    /**
+     * Maps a packet type to another packet type without a packet handler.
+     * Note that this should not be called for simple channel mappings of the same packet; this is already done automatically.
+     *
+     * @param packetType       clientbound packet type the server initially sends
+     * @param mappedPacketType clientbound packet type after transforming for the client
+     * @param override         whether an existing mapping should be overridden if present
+     */
+    default void registerClientbound(CU packetType, @Nullable CM mappedPacketType, boolean override) {
+        registerClientbound(packetType, mappedPacketType, null, override);
     }
 
     /**
@@ -158,7 +197,19 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
      * @param mappedPacketType serverbound packet type after transforming for the client
      */
     default void registerServerbound(SU packetType, @Nullable SM mappedPacketType) {
-        registerServerbound(packetType, mappedPacketType, null);
+        registerServerbound(packetType, mappedPacketType, false);
+    }
+
+    /**
+     * Maps a packet type to another packet type without a packet handler.
+     * Note that this should not be called for simple channel mappings of the same packet; this is already done automatically.
+     *
+     * @param packetType       serverbound packet type the client initially sends
+     * @param mappedPacketType serverbound packet type after transforming for the client
+     * @param override         whether an existing mapping should be overridden if present
+     */
+    default void registerServerbound(SU packetType, @Nullable SM mappedPacketType, boolean override) {
+        registerServerbound(packetType, mappedPacketType, null, override);
     }
 
     /**
@@ -167,7 +218,18 @@ public interface Protocol<CU extends ClientboundPacketType, CM extends Clientbou
      * @param packetType serverbound packet type the client sends
      * @param handler    packet handler
      */
-    void registerServerbound(SU packetType, @Nullable PacketHandler handler);
+    default void registerServerbound(SU packetType, @Nullable PacketHandler handler) {
+        registerServerbound(packetType, handler, false);
+    }
+
+    /**
+     * Registers a serverbound protocol and automatically maps it to the server's id.
+     *
+     * @param packetType serverbound packet type the client sends
+     * @param handler    packet handler
+     * @param override   whether an existing mapping should be overridden if present
+     */
+    void registerServerbound(SU packetType, @Nullable PacketHandler handler, boolean override);
 
     /**
      * Registers a serverbound protocol.
